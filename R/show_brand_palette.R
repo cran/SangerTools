@@ -1,4 +1,5 @@
-#' Display Brand Colour Palette
+#' @title Brand Colour Palette
+#' @description
 #' Displays a brand colour palette for showing the hex codes associated with brand
 #' @return a Base R plot object
 #' @importFrom scales show_col
@@ -8,11 +9,18 @@
 #' show_brand_palette()
 #' @export
 show_brand_palette <- function() {
-  show_col(c("#9880BB",
-             "#0061BA",
-             "#3BBCD9",
-             "#223873",
-             "#71B72B"
-             )
-           )
+  show_col(c(
+    "#9880BB",
+    "#0061BA",
+    "#3BBCD9",
+    "#223873",
+    "#71B72B"
+  ))
+  print(c(
+    "#9880BB",
+    "#0061BA",
+    "#3BBCD9",
+    "#223873",
+    "#71B72B"
+  ))
 }

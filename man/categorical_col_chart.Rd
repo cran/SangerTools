@@ -2,8 +2,7 @@
 % Please edit documentation in R/categorical_col_chart.R
 \name{categorical_col_chart}
 \alias{categorical_col_chart}
-\title{Plot Counts of Categorical Variables
-Create a ggplot2 column chart of categorical variables with proportions, in ascending order.}
+\title{Plot Counts of Categorical Variables}
 \usage{
 categorical_col_chart(df, grouping_var)
 }
@@ -16,8 +15,12 @@ categorical_col_chart(df, grouping_var)
 a ggplot2 object
 }
 \description{
-Plot Counts of Categorical Variables
-Create a ggplot2 column chart of categorical variables with proportions, in ascending order.
+Create a ggplot2 column chart of categorical variables with labels, in ascending order.
+The plot will be customised using the provided theme \code{\link{theme_sanger}}, y-axis labels will have a comma for every third integer value.
+If the column provided to `grouping_var` has more than approximately 5 values, you may need to consider
+rotating x axis labels using \code{\link[ggplot2]{theme}}
+
+A comprehensive explanation of ggplot2 customisation is available \href{https://ggplot2.tidyverse.org/reference/}{here}
 }
 \examples{
 library(SangerTools)
@@ -26,6 +29,12 @@ library(ggplot2)
 # Group by Age Band
 health_data <- SangerTools::PopHealthData
 health_data \%>\%
- dplyr::filter(Smoker==1) \%>\%
- SangerTools::categorical_col_chart(AgeBand) + labs(x="Ethnicity", y="Patient Number")
+  dplyr::filter(Smoker == 1) \%>\%
+  SangerTools::categorical_col_chart(AgeBand) +
+  labs(
+    title = "Smoking Population by Age Band",
+    subtitle = "Majority of Smokers are Working Aged ",
+    x = NULL,
+    y = "Patient Number"
+  )
 }

@@ -1,4 +1,6 @@
+#' @title
 #' Customised ggplot2 Theme
+#' @description
 #' A customised ggplot2 theme for the SangerTools package
 #' @return A customised ggplot2 plot
 #' @importFrom ggthemes theme_fivethirtyeight
@@ -10,8 +12,12 @@
 #' library(ggthemes)
 #' library(ggplot2)
 #' library(ggtext)
-#' categorical_col_chart(SangerTools::PopHealthData,Locality) +
-#' theme_sanger()
+#' categorical_col_chart(SangerTools::PopHealthData, Locality) +
+#'   theme_sanger()+
+#'   labs(title = "Categorical Column Chart",
+#'   x = "Locality",
+#'   y = "Number of Patients")+
+#'   scale_fill_sanger()
 #' @export
 theme_sanger <- function() {
   theme_fivethirtyeight() +
@@ -19,14 +25,15 @@ theme_sanger <- function() {
       text = element_text(),
       panel.background = element_blank(),
       panel.grid.minor = element_blank(),
-      plot.background = element_rect("#EBEBEB"),
+      panel.grid.major = element_blank(),
+      plot.background = element_rect("#e8f4f8"),
       plot.title = element_markdown(color = "#0061BA"),
       plot.subtitle = element_markdown(color = "#292929", face = "italic"),
       plot.caption = element_markdown(color = "#292929", face = "bold"),
       strip.text.x = element_text(colour = "white", face = "bold"),
-      axis.line = element_line(size = 3, colour = "grey80"),
-      axis.title = element_text(color = "#292929", face = "bold"),
+      strip.background = element_rect(fill = "darkgrey"),
+      axis.line = element_blank(),
+      axis.title = element_text(color = "#0061BA", face = "bold",size = 18),
       axis.text = element_text(color = "#292929", face = "bold")
-  )
-
+    )
 }

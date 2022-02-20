@@ -1,5 +1,11 @@
-#' Plot Counts of Categorical Variables
-#' Create a ggplot2 column chart of categorical variables with proportions, in ascending order.
+#' @title  Plot Counts of Categorical Variables
+#' @description
+#' Create a ggplot2 column chart of categorical variables with labels, in ascending order.
+#' The plot will be customised using the provided theme \code{\link{theme_sanger}}, y-axis labels will have a comma for every third integer value.
+#' If the column provided to `grouping_var` has more than approximately 5 values, you may need to consider
+#' rotating x axis labels using \code{\link[ggplot2]{theme}}
+#'
+#' A comprehensive explanation of ggplot2 customisation is available \href{https://ggplot2.tidyverse.org/reference/}{here}
 #' @param df A dataframe with categorical variables
 #' @param grouping_var a categorical variable by which to group the count by
 #' @return a ggplot2 object
@@ -13,7 +19,6 @@
 #' @importFrom ggplot2 scale_y_continuous
 #' @importFrom stats reorder
 #' @importFrom scales comma
-#' @importFrom ggthemes scale_fill_economist
 #' @importFrom magrittr %>%
 #' @examples
 #' library(SangerTools)
@@ -22,24 +27,27 @@
 #' # Group by Age Band
 #' health_data <- SangerTools::PopHealthData
 #' health_data %>%
-#'  dplyr::filter(Smoker==1) %>%
-#'  SangerTools::categorical_col_chart(AgeBand) + labs(x="Ethnicity", y="Patient Number")
+#'   dplyr::filter(Smoker == 1) %>%
+#'   SangerTools::categorical_col_chart(AgeBand) +
+#'   labs(
+#'     title = "Smoking Population by Age Band",
+#'     subtitle = "Majority of Smokers are Working Aged ",
+#'     x = NULL,
+#'     y = "Patient Number"
+#'   )
 #' @export
 
-categorical_col_chart <- function(df, grouping_var){
-  p1 <- {{df}}  %>%
-    dplyr::group_by( {{grouping_var}} )  %>%
+categorical_col_chart <- function(df, grouping_var) {
+  p1 <- df %>%
+    dplyr::group_by({{ grouping_var }}) %>%
     dplyr::summarise(patients_n = n()) %>%
-    dplyr::mutate(proportion = patients_n/sum(patients_n))  %>%
-    ggplot(aes(reorder( {{grouping_var}}, patients_n),patients_n, fill = {{grouping_var}} ))+
-    geom_col(show.legend = FALSE)+
-    geom_label(aes(label = paste0(round((proportion*100),2),"%"),size = 12),
-
-               show.legend = FALSE,nudge_y = -0.2)+
-
-    ggthemes::scale_fill_economist()+
-    scale_y_continuous(labels = comma)
+    dplyr::mutate(proportion = patients_n / sum(patients_n)) %>%
+    ggplot(aes(reorder({{ grouping_var }}, patients_n), patients_n, fill = {{ grouping_var }})) +
+    geom_col(show.legend = FALSE, alpha = 0.7) +
+    geom_label(aes(label = paste0(round((proportion * 100), 2), "%"), size = 12),
+      show.legend = FALSE, nudge_y = -0.2
+    ) +
+    scale_y_continuous(labels = comma) +
+    theme_sanger()
   return(p1)
-
 }
-
